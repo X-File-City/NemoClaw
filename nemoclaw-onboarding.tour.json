@@ -1,0 +1,258 @@
+{
+  "id": "nemoclaw-onboarding",
+  "title": "NemoClaw Codebase Tour",
+  "description": "A guided walkthrough of the NemoClaw project — an NVIDIA open-source tool that runs OpenClaw agents inside secure OpenShell sandboxes. This tour covers the three-layer architecture: TypeScript plugin, Python blueprint orchestrator, and host CLI.",
+  "version": "1.0.0",
+  "steps": [
+    {
+      "id": "overview",
+      "title": "Welcome to NemoClaw",
+      "description": "NemoClaw simplifies running OpenClaw autonomous agents inside OpenShell secure sandboxes. The codebase is organized into three layers: a TypeScript CLI plugin (nemoclaw/), a Python blueprint orchestrator (nemoclaw-blueprint/), and host-level CLI tooling (bin/). Configuration, tests, docs, and CI round out the repo.",
+      "focusDirectory": "",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "three-layers",
+          "name": "Core Layers",
+          "color": "#3b82f6",
+          "items": [
+            { "path": "nemoclaw", "type": "directory" },
+            { "path": "nemoclaw-blueprint", "type": "directory" },
+            { "path": "bin", "type": "directory" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "border"
+        },
+        {
+          "id": "config-files",
+          "name": "Root Config",
+          "color": "#f59e0b",
+          "items": [
+            { "path": "package.json", "type": "file" },
+            { "path": "Dockerfile", "type": "file" },
+            { "path": "Makefile", "type": "file" }
+          ],
+          "opacity": 0.5,
+          "renderStrategy": "border"
+        }
+      ]
+    },
+    {
+      "id": "plugin-overview",
+      "title": "TypeScript Plugin (nemoclaw/)",
+      "description": "The nemoclaw/ directory is the OpenClaw CLI plugin. It registers commands like launch, migrate, status, connect, and logs. The plugin is built with TypeScript targeting ES2022 and uses Commander.js for CLI parsing. Key subdirectories: src/commands/ for CLI handlers, src/blueprint/ for blueprint lifecycle, and src/onboard/ for the interactive setup wizard.",
+      "focusDirectory": "nemoclaw",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "plugin-entry",
+          "name": "Entry Points",
+          "color": "#10b981",
+          "items": [
+            { "path": "nemoclaw/src/cli.ts", "type": "file" },
+            { "path": "nemoclaw/src/index.ts", "type": "file" },
+            { "path": "nemoclaw/openclaw.plugin.json", "type": "file" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "border"
+        },
+        {
+          "id": "plugin-dirs",
+          "name": "Key Subdirectories",
+          "color": "#8b5cf6",
+          "items": [
+            { "path": "nemoclaw/src/commands", "type": "directory" },
+            { "path": "nemoclaw/src/blueprint", "type": "directory" },
+            { "path": "nemoclaw/src/onboard", "type": "directory" }
+          ],
+          "opacity": 0.5,
+          "renderStrategy": "border"
+        }
+      ]
+    },
+    {
+      "id": "cli-commands",
+      "title": "CLI Commands",
+      "description": "Each file in nemoclaw/src/commands/ defines a CLI subcommand. launch.ts bootstraps OpenClaw inside a new sandbox. migrate.ts moves an existing host installation into the sandbox. status.ts reports sandbox and inference health. connect.ts opens an interactive shell. logs.ts streams execution output. Commands are registered in cli.ts using Commander.js.",
+      "focusDirectory": "nemoclaw/src/commands",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "core-commands",
+          "name": "Core Commands",
+          "color": "#ef4444",
+          "items": [
+            { "path": "nemoclaw/src/commands/launch.ts", "type": "file" },
+            { "path": "nemoclaw/src/commands/migrate.ts", "type": "file" },
+            { "path": "nemoclaw/src/commands/status.ts", "type": "file" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "border"
+        }
+      ]
+    },
+    {
+      "id": "blueprint-lifecycle",
+      "title": "Blueprint Lifecycle",
+      "description": "The nemoclaw/src/blueprint/ directory manages the full blueprint lifecycle: resolve.ts fetches artifacts from OCI registries, verify.ts checks SHA256 digests and version compatibility, exec.ts spawns the Python orchestrator as a subprocess, and state.ts persists execution state. This is the bridge between the TypeScript CLI and the Python orchestrator.",
+      "focusDirectory": "nemoclaw/src/blueprint",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "lifecycle-flow",
+          "name": "Lifecycle Steps",
+          "color": "#06b6d4",
+          "items": [
+            { "path": "nemoclaw/src/blueprint/resolve.ts", "type": "file" },
+            { "path": "nemoclaw/src/blueprint/verify.ts", "type": "file" },
+            { "path": "nemoclaw/src/blueprint/fetch.ts", "type": "file" },
+            { "path": "nemoclaw/src/blueprint/exec.ts", "type": "file" },
+            { "path": "nemoclaw/src/blueprint/state.ts", "type": "file" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "border"
+        }
+      ]
+    },
+    {
+      "id": "python-orchestrator",
+      "title": "Python Blueprint Orchestrator",
+      "description": "The nemoclaw-blueprint/ directory contains the Python orchestrator that does the heavy lifting: creating sandboxes, applying security policies, and configuring inference routing. orchestrator/runner.py implements plan/apply/status/rollback actions. blueprint.yaml defines version, profiles (default, ncp, nim-local, vllm), and components. The policies/ directory holds security rules.",
+      "focusDirectory": "nemoclaw-blueprint",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "orchestrator-core",
+          "name": "Orchestrator",
+          "color": "#f97316",
+          "items": [
+            { "path": "nemoclaw-blueprint/orchestrator", "type": "directory" },
+            { "path": "nemoclaw-blueprint/blueprint.yaml", "type": "file" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "border"
+        },
+        {
+          "id": "security-policies",
+          "name": "Security Policies",
+          "color": "#dc2626",
+          "items": [
+            { "path": "nemoclaw-blueprint/policies", "type": "directory" }
+          ],
+          "opacity": 0.6,
+          "renderStrategy": "border"
+        }
+      ]
+    },
+    {
+      "id": "sandbox-policies",
+      "title": "Sandbox Security Policies",
+      "description": "Security is enforced via declarative YAML policies. openclaw-sandbox.yaml is the base policy defining Landlock filesystem rules (read-only /usr, read-write /sandbox), seccomp syscall filters, and network namespace isolation. The presets/ directory contains allow-list templates for third-party services like Slack, Discord, npm, PyPI, and Docker registries.",
+      "focusDirectory": "nemoclaw-blueprint/policies",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "base-policy",
+          "name": "Base Policy",
+          "color": "#dc2626",
+          "items": [
+            { "path": "nemoclaw-blueprint/policies/openclaw-sandbox.yaml", "type": "file" }
+          ],
+          "opacity": 0.8,
+          "renderStrategy": "border"
+        },
+        {
+          "id": "presets",
+          "name": "Network Presets",
+          "color": "#a855f7",
+          "items": [
+            { "path": "nemoclaw-blueprint/policies/presets", "type": "directory" }
+          ],
+          "opacity": 0.6,
+          "renderStrategy": "border"
+        }
+      ]
+    },
+    {
+      "id": "host-cli",
+      "title": "Host CLI & Installation",
+      "description": "The bin/ directory provides the host-level nemoclaw command used for initial setup before the plugin is available. nemoclaw.js is the main entry point. Helper modules in bin/lib/ handle onboarding, credential management (NVIDIA API keys, GitHub tokens), OCI registry auth, NIM service config, and network policies. The scripts/ directory contains install.sh and startup helpers.",
+      "focusDirectory": "bin",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "host-entry",
+          "name": "Entry Point",
+          "color": "#22c55e",
+          "items": [
+            { "path": "bin/nemoclaw.js", "type": "file" }
+          ],
+          "opacity": 0.8,
+          "renderStrategy": "border"
+        },
+        {
+          "id": "host-helpers",
+          "name": "Helper Modules",
+          "color": "#3b82f6",
+          "items": [
+            { "path": "bin/lib", "type": "directory" }
+          ],
+          "opacity": 0.6,
+          "renderStrategy": "border"
+        }
+      ]
+    },
+    {
+      "id": "testing",
+      "title": "Testing & CI",
+      "description": "Tests live in test/ at the repo root. Integration tests (*.test.js) cover the CLI, install preflight checks, and policy validation. The plugin has its own unit tests using Vitest in nemoclaw/src/. E2E tests in test/e2e/ exercise full flows with Docker. CI runs via GitHub Actions (.github/workflows/pr.yaml) enforcing lint, format, and test checks on every PR.",
+      "focusDirectory": "test",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "ci-config",
+          "name": "CI Workflows",
+          "color": "#6366f1",
+          "items": [
+            { "path": ".github/workflows", "type": "directory" }
+          ],
+          "opacity": 0.6,
+          "renderStrategy": "border"
+        }
+      ]
+    },
+    {
+      "id": "wrap-up",
+      "title": "Next Steps",
+      "description": "You now have a map of the NemoClaw codebase. To dive deeper: read CONTRIBUTING.md for development setup, check docs/ for Sphinx documentation, and explore the Makefile for build/lint/test commands. Key entry points to remember: nemoclaw/src/cli.ts (plugin commands), nemoclaw-blueprint/orchestrator/runner.py (orchestration logic), and bin/nemoclaw.js (host CLI).",
+      "focusDirectory": "",
+      "colorMode": "fileTypes",
+      "highlightLayers": [
+        {
+          "id": "key-entry-points",
+          "name": "Key Entry Points",
+          "color": "#10b981",
+          "items": [
+            { "path": "nemoclaw/src/cli.ts", "type": "file" },
+            { "path": "nemoclaw-blueprint/orchestrator", "type": "directory" },
+            { "path": "bin/nemoclaw.js", "type": "file" }
+          ],
+          "opacity": 0.7,
+          "renderStrategy": "border"
+        },
+        {
+          "id": "dev-resources",
+          "name": "Developer Resources",
+          "color": "#f59e0b",
+          "items": [
+            { "path": "CONTRIBUTING.md", "type": "file" },
+            { "path": "docs", "type": "directory" },
+            { "path": "Makefile", "type": "file" }
+          ],
+          "opacity": 0.5,
+          "renderStrategy": "border"
+        }
+      ]
+    }
+  ]
+}
