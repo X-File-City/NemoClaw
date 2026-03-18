@@ -7,7 +7,7 @@
     {
       "id": "overview",
       "title": "Welcome to NemoClaw",
-      "description": "NemoClaw simplifies running OpenClaw autonomous agents inside OpenShell secure sandboxes. The codebase is organized into three layers: a TypeScript CLI plugin (nemoclaw/), a Python blueprint orchestrator (nemoclaw-blueprint/), and host-level CLI tooling (bin/). Configuration, tests, docs, and CI round out the repo.",
+      "description": "NemoClaw simplifies running OpenClaw autonomous agents inside OpenShell secure sandboxes. The codebase is organized into three layers: a TypeScript CLI plugin (nemoclaw), a Python blueprint orchestrator (nemoclaw-blueprint), and host-level CLI tooling (bin). Configuration, tests, docs, and CI round out the repo.",
       "focusDirectory": "",
       "colorMode": "fileTypes",
       "highlightLayers": [
@@ -147,7 +147,7 @@
     {
       "id": "sandbox-policies",
       "title": "Sandbox Security Policies",
-      "description": "Security is enforced via declarative YAML policies. openclaw-sandbox.yaml is the base policy defining Landlock filesystem rules (read-only /usr, read-write /sandbox), seccomp syscall filters, and network namespace isolation. The presets/ directory contains allow-list templates for third-party services like Slack, Discord, npm, PyPI, and Docker registries.",
+      "description": "Security is enforced via declarative YAML policies. openclaw-sandbox.yaml is the base policy defining Landlock filesystem rules (read-only usr, read-write sandbox), seccomp syscall filters, and network namespace isolation. The presets/ directory contains allow-list templates for third-party services like Slack, Discord, npm, PyPI, and Docker registries.",
       "focusDirectory": "nemoclaw-blueprint/policies",
       "colorMode": "fileTypes",
       "highlightLayers": [
@@ -205,7 +205,7 @@
     {
       "id": "testing",
       "title": "Testing & CI",
-      "description": "Tests live in test/ at the repo root. Integration tests (*.test.js) cover the CLI, install preflight checks, and policy validation. The plugin has its own unit tests using Vitest in nemoclaw/src/. E2E tests in test/e2e/ exercise full flows with Docker. CI runs via GitHub Actions (.github/workflows/pr.yaml) enforcing lint, format, and test checks on every PR.",
+      "description": "Tests live in test at the repo root. Integration tests cover the CLI, install preflight checks, and policy validation. The plugin has its own unit tests using Vitest in nemoclaw src. E2E tests in test e2e exercise full flows with Docker. CI runs via GitHub Actions enforcing lint, format, and test checks on every PR.",
       "focusDirectory": "test",
       "colorMode": "fileTypes",
       "highlightLayers": [
